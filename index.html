@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TopTech - Les 40 meilleurs produits</title>
+    <style>
+        :root {
+            --bleu-ciel: #E3F2FD;
+            --bleu-ciel-medium: #BBDEFB;
+            --argent: #F5F5F7;
+            --orange: #FF9800;
+            --orange-hover: #F57C00;
+            --texte: #212121;
+            --texte-light: #757575;
+            --blanc: #FFFFFF;
+            --ombre: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--argent);
+            color: var(--texte);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--bleu-ciel), var(--argent));
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 12px var(--ombre);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--texte);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo::before {
+            content: "⚡";
+            font-size: 2rem;
+        }
+
+        .categories {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .category-btn {
+            background: transparent;
+            border: 2px solid var(--bleu-ciel-medium);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background: var(--orange);
+            color: var(--blanc);
+            border-color: var(--orange);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background: var(--blanc);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 8px var(--ombre);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px var(--ombre);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, var(--bleu-ciel), var(--argent));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+
+        .product-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--texte);
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--orange);
+            margin: 0.5rem 0;
+        }
+
+        .product-rating {
+            color: #FFD700;
+            margin-bottom: 1rem;
+        }
+
+        .view-product {
+            background: var(--orange);
+            color: var(--blanc);
+            border: none;
+            padding: 0.7rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: auto;
+        }
+
+        .view-product:hover {
+            background: var(--orange-hover);
+            transform: scale(1.05);
+        }
+
+        /* Product Detail Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: var(--blanc);
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 900px;
+            position: relative;
+            animation: modalAppear 0.3s ease;
+        }
+
+        @keyframes modalAppear {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 1.5rem;
+            top: 1rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--texte-light);
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--orange);
+        }
+
+        .product-detail {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .product-detail-image {
+            background: linear-gradient(135deg, var(--bleu-ciel), var(--argent));
+            border-radius: 12px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .product-detail-info h2 {
+            color: var(--texte);
+            margin-bottom: 1rem;
+        }
+
+        .product-detail-price {
+            font-size: 2rem;
+            color: var(--orange);
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .product-description {
+            margin: 1.5rem 0;
+            line-height: 1.8;
+        }
+
+        .add-to-cart {
+            background: var(--orange);
+            color: var(--blanc);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .add-to-cart:hover {
+            background: var(--orange-hover);
+            transform: scale(1.02);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 3rem 0;
+        }
+
+        .page-btn {
+            background: var(--blanc);
+            border: 2px solid var(--bleu-ciel-medium);
+            padding: 0.7rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .page-btn.active, .page-btn:hover {
+            background: var(--orange);
+            color: var(--blanc);
+            border-color: var(--orange);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--bleu-ciel), var(--argent));
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        /* Debug */
+        .debug-info {
+            background: #ffeb3b;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .categories {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .product-detail {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 0 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">TopTech</div>
+            <div class="categories">
+                <button class="category-btn active" data-category="all">Tous les produits</button>
+                <button class="category-btn" data-category="audio">Audio & Casques</button>
+                <button class="category-btn" data-category="smart">Maison Connectée</button>
+                <button class="category-btn" data-category="streaming">Streaming & TV</button>
+                <button class="category-btn" data-category="mobile">Mobilité</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="debug-info" id="debugInfo">
+            <!-- Les informations de débogage apparaîtront ici -->
+        </div>
+        
+        <div class="products-grid" id="productsGrid">
+            <!-- Les produits seront générés par JavaScript -->
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <button class="page-btn active" data-page="1">1</button>
+            <button class="page-btn" data-page="2">2</button>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <div class="product-detail" id="productDetail">
+                <!-- Le contenu du produit détaillé sera injecté ici -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 TopTech - Les meilleurs produits tech. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        // Données des produits
+        const products = [
+            {
+                id: 1,
+                name: "Echo Dot (5ᵉ génération) — assistant vocal Alexa",
+                category: "smart",
+                price: "49,99€",
+                rating: "★★★★★",
+                image: "🎵",
+                description: "Assistant vocal intelligent Alexa avec un son amélioré. Contrôlez votre maison connectée, écoutez de la musique, obtenez des informations et bien plus encore grâce à la commande vocale.",
+                features: ["Son HD amélioré", "Contrôle de la maison connectée", "Alexa intégrée", "Design compact"]
+            },
+            {
+                id: 2,
+                name: "Amazon Fire TV Stick 4K Max — streaming 4K",
+                category: "streaming",
+                price: "64,99€",
+                rating: "★★★★☆",
+                image: "📺",
+                description: "Le streaming le plus puissant en 4K Ultra HD. Accédez à tous vos contenus préférés avec une interface fluide et des performances optimisées.",
+                features: ["Streaming 4K Ultra HD", "Wi-Fi 6", "Alexa intégrée", "Dolby Vision"]
+            },
+            {
+                id: 3,
+                name: "Apple AirPods Pro (2ᵉ génération) — écoute sans fil, ANC",
+                category: "audio",
+                price: "279,00€",
+                rating: "★★★★★",
+                image: "🎧",
+                description: "Écouteurs True Wireless avec réduction active du bruit. Son personnalisé et autonomie prolongée pour une expérience audio immersive.",
+                features: ["Réduction active du bruit", "Sound personnalisé", "Autonomie 6h", "Boîtier MagSafe"]
+            },
+            {
+                id: 4,
+                name: "Kindle Paperwhite — liseuse waterproof",
+                category: "mobile",
+                price: "149,99€",
+                rating: "★★★★☆",
+                image: "📖",
+                description: "Liseuse étanche avec écran haute résolution. Lisez comme sur du papier véritable, même au soleil.",
+                features: ["Écran 6.8\"", "Étanche IPX8", "Éclairage chaud", "Autonomie semaines"]
+            },
+            {
+                id: 5,
+                name: "Anker PowerCore 10000 — batterie externe compacte",
+                category: "mobile",
+                price: "29,99€",
+                rating: "★★★★★",
+                image: "🔋",
+                description: "Batterie portable ultra-compacte pour charger vos appareils en déplacement. Design slim et puissance fiable.",
+                features: ["10000mAh", "Charge rapide", "Design compact", "Double port USB"]
+            },
+            {
+                id: 6,
+                name: "TAGRY Bluetooth Headphones (True Wireless) — écouteurs très vendus",
+                category: "audio",
+                price: "39,99€",
+                rating: "★★★★☆",
+                image: "🎵",
+                description: "Écouteurs True Wireless avec un excellent rapport qualité-prix. Son clair et connexion stable pour la musique et les appels.",
+                features: ["True Wireless", "Batterie 20h", "Étanche IPX5", "Micro intégré"]
+            },
+            {
+                id: 7,
+                name: "Roku Ultra 4K Streaming Player — lecteur multimédia",
+                category: "streaming",
+                price: "99,99€",
+                rating: "★★★★☆",
+                image: "📦",
+                description: "Lecteur streaming 4K avec toutes les applications populaires. Télécommande vocale et performance optimale.",
+                features: ["4K HDR", "Dolby Vision", "Voice Remote", "Ethernet intégré"]
+            },
+            {
+                id: 8,
+                name: "GRV Fitness Tracker — traqueur d'activité",
+                category: "mobile",
+                price: "24,99€",
+                rating: "★★★★☆",
+                image: "⌚",
+                description: "Montre connectée fitness avec suivi d'activité complet. Monitorage du sommeil et notifications intelligentes.",
+                features: ["Suivi activité 24/7", "Monitorage sommeil", "Étanche IP67", "Batterie 7 jours"]
+            },
+            {
+                id: 9,
+                name: "Bose SoundLink Home Speaker — enceinte Bluetooth haut de gamme",
+                category: "audio",
+                price: "199,00€",
+                rating: "★★★★★",
+                image: "🔊",
+                description: "Enceinte Bluetooth premium avec son riche et puissant. Design élégant pour votre maison.",
+                features: ["Son 360°", "Batterie 12h", "Alexa intégrée", "Design aluminium"]
+            },
+            {
+                id: 10,
+                name: "MOES ZigBee 3.0 Smart Home Hub — hub domotique",
+                category: "smart",
+                price: "34,99€",
+                rating: "★★★★☆",
+                image: "🏠",
+                description: "Centre de contrôle pour votre maison connectée. Compatible avec tous vos appareils intelligents.",
+                features: ["ZigBee 3.0", "Contrôle vocal", "Compatibilité étendue", "App mobile"]
+            },
+            {
+                id: 11,
+                name: "Smart WiFi Light Switch (pack 4) — interrupteur connecté",
+                category: "smart",
+                price: "49,99€",
+                rating: "★★★★☆",
+                image: "💡",
+                description: "Interrupteurs connectés pour automatiser votre éclairage. Contrôle à distance et programmation facile.",
+                features: ["Contrôle WiFi", "Compatibilité Alexa/Google", "Installation facile", "Pack de 4"]
+            },
+            {
+                id: 12,
+                name: "Solar Power Bank YELOMIN 20000mAh — chargeur solaire portable",
+                category: "mobile",
+                price: "45,99€",
+                rating: "★★★★☆",
+                image: "☀️",
+                description: "Batterie solaire portable pour les aventures en extérieur. Chargez vos appareils n'importe où.",
+                features: ["20000mAh", "Charge solaire", "Étanche IPX4", "3 ports USB"]
+            },
+            {
+                id: 13,
+                name: "KERHAND Bluetooth Noise-Cancelling Headphones (enfants) — casque pour enfants",
+                category: "audio",
+                price: "34,99€",
+                rating: "★★★★☆",
+                image: "👶",
+                description: "Casque audio pour enfants avec limitation de volume. Confort optimal et design adapté.",
+                features: ["Limiteur volume", "Confortable", "Batterie 15h", "Design enfant"]
+            },
+            {
+                id: 14,
+                name: "Edifier W800BT Pro — casque à réduction de bruit",
+                category: "audio",
+                price: "89,99€",
+                rating: "★★★★☆",
+                image: "🎧",
+                description: "Casque over-ear avec réduction de bruit active. Son Hi-Fi et confort prolongé.",
+                features: ["ANC hybride", "Son Hi-Fi", "Autonomie 45h", "Pliable"]
+            },
+            {
+                id: 15,
+                name: "Nothing Headphone (1) — casque hybride ANC",
+                category: "audio",
+                price: "149,99€",
+                rating: "★★★★☆",
+                image: "🎧",
+                description: "Casque transparent avec technologie de réduction de bruit hybride. Design unique et son exceptionnel.",
+                features: ["Design transparent", "ANC hybride", "Sound personnalisé", "Contrôles gestuels"]
+            },
+            {
+                id: 16,
+                name: "Acoustic Audio 1000W Bluetooth Speaker — enceinte puissante",
+                category: "audio",
+                price: "129,99€",
+                rating: "★★★★☆",
+                image: "🔊",
+                description: "Enceinte Bluetooth haute puissance pour les grandes occasions. Son clair et basses profondes.",
+                features: ["1000W PMPO", "Basses renforcées", "Lumières LED", "Batterie 8h"]
+            },
+            {
+                id: 17,
+                name: "JBL Tune 130NC TWS — écouteurs true wireless ANC",
+                category: "audio",
+                price: "99,99€",
+                rating: "★★★★★",
+                image: "🎧",
+                description: "Écouteurs True Wireless JBL avec Pure Bass et réduction de bruit active. Son JBL signature.",
+                features: ["Pure Bass Sound", "ANC adaptatif", "Autonomie 40h", "Étanche IPX4"]
+            },
+            {
+                id: 18,
+                name: "Indoor Security Camera WiFi — caméra de surveillance intérieure",
+                category: "smart",
+                price: "39,99€",
+                rating: "★★★★☆",
+                image: "📹",
+                description: "Caméra de surveillance intérieure avec détection de mouvement. Vision nocturne et audio bidirectionnel.",
+                features: ["1080P HD", "Vision nocturne", "Détection mouvement", "Audio 2-way"]
+            },
+            {
+                id: 19,
+                name: "Levoit Core 600S Smart Air Purifier — purificateur d'air connecté",
+                category: "smart",
+                price: "299,99€",
+                rating: "★★★★★",
+                image: "💨",
+                description: "Purificateur d'air intelligent pour grands espaces. Contrôle via application et suivi de la qualité d'air.",
+                features: ["Couverture 60m²", "Contrôle WiFi", "Filtre HEPA", "Affichage qualité air"]
+            },
+            {
+                id: 20,
+                name: "Anker 737 Power Bank (PowerCore 24K) — grosse capacité + 140W",
+                category: "mobile",
+                price: "149,99€",
+                rating: "★★★★★",
+                image: "🔋",
+                description: "Batterie portable ultra-rapide avec écran digital. Charge simultanée de plusieurs appareils.",
+                features: ["24000mAh", "Charge 140W", "Écran digital", "3 ports"]
+            },
+            {
+                id: 21,
+                name: "Sony WH-1000XM5 — casque sans fil avec ANC",
+                category: "audio",
+                price: "399,99€",
+                rating: "★★★★★",
+                image: "🎧",
+                description: "Casque sans fil premium avec la meilleure réduction de bruit du marché. Son exceptionnel et confort optimal.",
+                features: ["ANC best-in-class", "Son Hi-Res", "Autonomie 30h", "Contrôle tactile"]
+            },
+            {
+                id: 22,
+                name: "Ember Smart Mug 2+ — mug intelligent qui garde la température",
+                category: "smart",
+                price: "129,99€",
+                image: "☕",
+                rating: "★★★★☆",
+                description: "Tasse intelligente qui maintient la température idéale de votre boisson. Contrôle via application.",
+                features: ["Contrôle température", "App mobile", "Autonomie 1.5h", "Design premium"]
+            },
+            {
+                id: 23,
+                name: "Click & Grow Smart Garden 9 Pro — jardin d'intérieur connecté",
+                category: "smart",
+                price: "199,99€",
+                rating: "★★★★☆",
+                image: "🌱",
+                description: "Jardin d'intérieur automatique avec éclairage LED. Faites pousser vos herbes fraîches toute l'année.",
+                features: ["Éclairage LED", "Arrosage automatique", "App mobile", "9 places"]
+            },
+            {
+                id: 24,
+                name: "Amazon Fire Max 11 Tablet — tablette Fire moderne",
+                category: "mobile",
+                price: "229,99€",
+                rating: "★★★★☆",
+                image: "📱",
+                description: "Tablette Fire performante avec écran 11 pouces. Parfaite pour le travail et les loisirs.",
+                features: ["Écran 11\"", "USI 2.0", "Empreinte digitale", "Autonomie 14h"]
+            },
+            {
+                id: 25,
+                name: "Apple iPad 11-inch — tablette polyvalente très populaire",
+                category: "mobile",
+                price: "799,00€",
+                rating: "★★★★★",
+                image: "📱",
+                description: "iPad 11 pouces avec puce M1. Performances professionnelles dans un design portable.",
+                features: ["Puce M1", "Écran Liquid Retina", "Compatibilité Apple Pencil", "Wi-Fi 6"]
+            },
+            {
+                id: 26,
+                name: "Bose QuietComfort Ultra Headphones — casque ANC haut de gamme",
+                category: "audio",
+                price: "429,00€",
+                rating: "★★★★★",
+                image: "🎧",
+                description: "Casque audio premium avec immersion sonore et confort exceptionnel. Réduction de bruit avancée.",
+                features: ["Immersion Audio", "ANC avancé", "Confort optimal", "Autonomie 24h"]
+            },
+            {
+                id: 27,
+                name: "Beats Studio Buds+ — écouteurs sport/spatial audio",
+                category: "audio",
+                price: "169,99€",
+                rating: "★★★★☆",
+                image: "🎧",
+                description: "Écouteurs True Wireless optimisés pour le sport. Audio spatial et tenue sécurisée.",
+                features: ["Audio Spatial", "Tenue sport", "Autonomie 8h", "Résistance sueur"]
+            },
+            {
+                id: 28,
+                name: "Samsung The Frame 50″ Smart TV — TV design 'cadre d'art'",
+                category: "streaming",
+                price: "999,99€",
+                rating: "★★★★★",
+                image: "📺",
+                description: "Téléviseur design qui se transforme en œuvre d'art. Image QLED 4K exceptionnelle.",
+                features: ["QLED 4K", "Mode Art", "Design mince", "Smart TV"]
+            },
+            {
+                id: 29,
+                name: "Apple Watch SE (2ᵉ gen) — montre connectée à bon rapport qualité-prix",
+                category: "mobile",
+                price: "279,00€",
+                rating: "★★★★☆",
+                image: "⌚",
+                description: "Montre connectée Apple avec les fonctionnalités essentielles. Suivi fitness et notifications.",
+                features: ["Suivi activité", "Notifications", "Étanche", "Batterie 18h"]
+            },
+            {
+                id: 30,
+                name: "Apple AirTag (pack 4) — tracker d'objets",
+                category: "mobile",
+                price: "119,00€",
+                rating: "★★★★★",
+                image: "📍",
+                description: "Trackers Bluetooth pour localiser vos objets perdus. Réseau de recherche mondial.",
+                features: ["Réseau Find My", "Batterie 1 an", "Design compact", "Pack de 4"]
+            },
+            {
+                id: 31,
+                name: "Blink Video Doorbell — sonnette vidéo connectée",
+                category: "smart",
+                price: "59,99€",
+                rating: "★★★★☆",
+                image: "🚪",
+                description: "Sonnette vidéo avec détection de mouvement et vision nocturne. Alertes instantanées.",
+                features: ["1080P HD", "Vision nocturne", "Détection mouvement", "Batterie 2 ans"]
+            },
+            {
+                id: 32,
+                name: "Roku Streaming Stick HD — lecteur de streaming Amazon/Vidéo",
+                category: "streaming",
+                price: "39,99€",
+                rating: "★★★★☆",
+                image: "📦",
+                description: "Lecteur streaming compact avec toutes les applications. Facile à installer et utiliser.",
+                features: ["Streaming HD", "Remote simple", "Thousands of channels", "Compact"]
+            },
+            {
+                id: 33,
+                name: "eero 6+ Mesh WiFi Router — routeur maillé Amazon",
+                category: "smart",
+                price: "199,99€",
+                rating: "★★★★★",
+                image: "📡",
+                description: "Système WiFi maillé pour couvrir toute votre maison. Installation simple et performances stables.",
+                features: ["Wi-Fi 6", "Couverture complète", "Setup facile", "eero Secure"]
+            },
+            {
+                id: 34,
+                name: "Blink Mini 2 Camera — caméra de sécurité compacte",
+                category: "smart",
+                price: "34,99€",
+                rating: "★★★★☆",
+                image: "📹",
+                description: "Caméra de sécurité intérieure compacte avec détection de mouvement. Installation facile.",
+                features: ["1080P HD", "Détection mouvement", "Audio 2-way", "Compacte"]
+            },
+            {
+                id: 35,
+                name: "Ring Indoor Cam (2ᵉ gen) — caméra d'intérieur connectée",
+                category: "smart",
+                price: "59,99€",
+                rating: "★★★★☆",
+                image: "📹",
+                description: "Caméra de surveillance intérieure Ring avec vision nocturne et audio bidirectionnel.",
+                features: ["1080P HD", "Vision nocturne", "Audio 2-way", "Intégration Ring"]
+            },
+            {
+                id: 36,
+                name: "Echo Pop — petit haut-parleur Alexa d'appoint",
+                category: "smart",
+                price: "39,99€",
+                rating: "★★★★☆",
+                image: "🎵",
+                description: "Petit haut-parleur Alexa directionnel. Son clair pour les petites pièces.",
+                features: ["Son directionnel", "Alexa intégrée", "Design compact", "Couleurs variées"]
+            },
+            {
+                id: 37,
+                name: "Amazon Fire TV 50″ 4-Series — TV 4K connectée",
+                category: "streaming",
+                price: "449,99€",
+                rating: "★★★★☆",
+                image: "📺",
+                description: "Téléviseur 4K Fire TV avec Alexa intégrée. Streaming facile et interface intuitive.",
+                features: ["4K UHD", "Fire TV", "Alexa intégrée", "3x HDMI"]
+            },
+            {
+                id: 38,
+                name: "Amazon Fire TV 55″ Omni QLED — TV QLED haut de gamme",
+                category: "streaming",
+                price: "599,99€",
+                rating: "★★★★★",
+                image: "📺",
+                description: "Téléviseur QLED Fire TV avec image exceptionnelle. Contrôle mains libres Alexa.",
+                features: ["QLED 4K", "Hands-free Alexa", "Local dimming", "Design sans bordure"]
+            },
+            {
+                id: 39,
+                name: "Blink Outdoor 4 — caméra de surveillance extérieure avec projecteur",
+                category: "smart",
+                price: "99,99€",
+                rating: "★★★★☆",
+                image: "📹",
+                description: "Caméra de sécurité extérieure avec projecteur intégré. Résiste aux intempéries.",
+                features: ["1080P HD", "Projecteur intégré", "Résiste aux intempéries", "Batterie 2 ans"]
+            },
+            {
+                id: 40,
+                name: "Amazon eero mesh WiFi system (pack multi) — maillage WiFi haute performance",
+                category: "smart",
+                price: "299,99€",
+                rating: "★★★★★",
+                image: "📡",
+                description: "Système WiFi maillé complet pour les grandes maisons. Couverture étendue et performances optimales.",
+                features: ["Pack 3 unités", "Wi-Fi 6", "Couverture 460m²", "Setup facile"]
+            }
+        ];
+
+        // Variables globales
+        let currentPage = 1;
+        let currentCategory = 'all';
+        const productsPerPage = 20;
+
+        // Debug function
+        function debug(message) {
+            console.log(message);
+            const debugInfo = document.getElementById('debugInfo');
+            debugInfo.innerHTML += `<p>${message}</p>`;
+            debugInfo.style.display = 'block';
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            debug('Page chargée - Début de l\'initialisation');
+            displayProducts();
+            setupEventListeners();
+            debug('Initialisation terminée - ' + products.length + ' produits chargés');
+        });
+
+        // Afficher les produits
+        function displayProducts() {
+            const grid = document.getElementById('productsGrid');
+            debug('Affichage des produits - Page: ' + currentPage + ', Catégorie: ' + currentCategory);
+            
+            if (!grid) {
+                debug('ERREUR: Element productsGrid non trouvé!');
+                return;
+            }
+
+            grid.innerHTML = '';
+
+            const filteredProducts = products.filter(product => 
+                currentCategory === 'all' || product.category === currentCategory
+            );
+
+            debug('Produits filtrés: ' + filteredProducts.length);
+
+            const startIndex = (currentPage - 1) * productsPerPage;
+            const endIndex = startIndex + productsPerPage;
+            const productsToShow = filteredProducts.slice(startIndex, endIndex);
+
+            debug('Produits à afficher: ' + productsToShow.length);
+
+            if (productsToShow.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 2rem;">Aucun produit trouvé</p>';
+                return;
+            }
+
+            productsToShow.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <div class="product-image">${product.image}</div>
+                    <div class="product-info">
+                        <h3>${product.name}</h3>
+                        <div class="product-rating">${product.rating}</div>
+                        <div class="product-price">${product.price}</div>
+                    </div>
+                    <button class="view-product" onclick="showProductDetail(${product.id})">Voir le produit</button>
+                `;
+                grid.appendChild(productCard);
+            });
+
+            updatePagination(filteredProducts.length);
+        }
+
+        // Afficher les détails du produit
+        window.showProductDetail = function(productId) {
+            debug('Affichage détail produit: ' + productId);
+            const product = products.find(p => p.id === productId);
+            const modal = document.getElementById('productModal');
+            const detail = document.getElementById('productDetail');
+
+            if (!product) {
+                debug('ERREUR: Produit non trouvé avec ID: ' + productId);
+                return;
+            }
+
+            detail.innerHTML = `
+                <div class="product-detail-image">${product.image}</div>
+                <div class="product-detail-info">
+                    <h2>${product.name}</h2>
+                    <div class="product-rating">${product.rating}</div>
+                    <div class="product-detail-price">${product.price}</div>
+                    <p class="product-description">${product.description}</p>
+                    <h3>Caractéristiques principales :</h3>
+                    <ul>
+                        ${product.features.map(feature => `<li>${feature}</li>`).join('')}
+                    </ul>
+                    <button class="add-to-cart" onclick="addToCart(${product.id})">Ajouter au panier</button>
+                </div>
+            `;
+
+            modal.style.display = 'block';
+        }
+
+        // Gestion du panier (fonction de base)
+        window.addToCart = function(productId) {
+            alert('Produit ajouté au panier !');
+        }
+
+        // Mise à jour de la pagination
+        function updatePagination(totalProducts) {
+            const totalPages = Math.ceil(totalProducts / productsPerPage);
+            const pagination = document.querySelector('.pagination');
+            
+            if (totalPages <= 1) {
+                pagination.style.display = 'none';
+            } else {
+                pagination.style.display = 'flex';
+            }
+        }
+
+        // Configuration des événements
+        function setupEventListeners() {
+            debug('Configuration des événements...');
+
+            // Catégories
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentCategory = this.dataset.category;
+                    currentPage = 1;
+                    displayProducts();
+                });
+            });
+
+            // Pagination
+            document.querySelectorAll('.page-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentPage = parseInt(this.dataset.page);
+                    displayProducts();
+                });
+            });
+
+            // Fermer la modal
+            document.getElementById('closeModal').addEventListener('click', function() {
+                document.getElementById('productModal').style.display = 'none';
+            });
+
+            // Fermer la modal en cliquant à l'extérieur
+            window.addEventListener('click', function(event) {
+                const modal = document.getElementById('productModal');
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+
+            debug('Événements configurés avec succès');
+        }
+    </script>
+</body>
+</html>
