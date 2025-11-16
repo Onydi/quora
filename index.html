@@ -28,27 +28,17 @@
             background-color: #f9f9f9;
             color: var(--text-color);
             line-height: 1.6;
-            padding-top: 80px; /* Pour compenser l'en-tête fixe */
         }
 
         header {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
-                        url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('https://images.pexels.com/photos/4482900/pexels-photo-4482900.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
             background-size: cover;
             background-position: center;
             color: white;
-            padding: 1.5rem 0;
+            padding: 3rem 0;
             text-align: center;
             box-shadow: var(--shadow);
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 100;
-            transition: var(--transition);
-        }
-
-        header.hidden {
-            transform: translateY(-100%);
         }
 
         .container {
@@ -59,15 +49,25 @@
         }
 
         h1 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             margin-bottom: 0.5rem;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         .subtitle {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             opacity: 0.9;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            margin-bottom: 1.5rem;
+        }
+
+        .filters-container {
+            background-color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 99;
         }
 
         .filters {
@@ -75,7 +75,6 @@
             justify-content: center;
             flex-wrap: wrap;
             gap: 1rem;
-            margin: 2rem 0;
         }
 
         .filter-btn {
@@ -101,9 +100,21 @@
             margin-bottom: 3rem;
         }
 
+        @media (max-width: 1024px) {
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
         @media (max-width: 768px) {
             .products-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -157,16 +168,17 @@
 
         .product-title {
             font-size: 1.2rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
             height: 2.8rem;
             overflow: hidden;
         }
 
-        .product-price {
-            color: var(--primary-color);
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
+        .product-description {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 1.2rem;
+            line-height: 1.5;
+            flex-grow: 1;
         }
 
         .btn {
@@ -181,7 +193,6 @@
             font-weight: 600;
             text-align: center;
             width: 100%;
-            margin-top: auto;
         }
 
         .btn:hover {
@@ -286,23 +297,27 @@
     </style>
 </head>
 <body>
-    <header id="main-header">
+    <header>
         <div class="container">
             <h1>Boutique Élégante</h1>
             <p class="subtitle">Découvrez nos 100 produits exceptionnels</p>
         </div>
     </header>
 
-    <div class="container">
-        <div class="filters">
-            <button class="filter-btn active" data-category="all">Tous les produits</button>
-            <button class="filter-btn" data-category="electronique">Électronique</button>
-            <button class="filter-btn" data-category="maison">Maison & Déco</button>
-            <button class="filter-btn" data-category="mode">Mode & Accessoires</button>
-            <button class="filter-btn" data-category="sport">Sport & Loisirs</button>
-            <button class="filter-btn" data-category="beaute">Beauté & Santé</button>
+    <div class="filters-container">
+        <div class="container">
+            <div class="filters">
+                <button class="filter-btn active" data-category="all">Tous les produits</button>
+                <button class="filter-btn" data-category="electronique">Électronique</button>
+                <button class="filter-btn" data-category="maison">Maison & Déco</button>
+                <button class="filter-btn" data-category="mode">Mode & Accessoires</button>
+                <button class="filter-btn" data-category="sport">Sport & Loisirs</button>
+                <button class="filter-btn" data-category="beaute">Beauté & Santé</button>
+            </div>
         </div>
+    </div>
 
+    <div class="container">
         <div class="products-grid" id="products-container">
             <!-- Les produits seront chargés ici par JavaScript -->
         </div>
@@ -327,114 +342,114 @@
         // Données des produits avec des images de différentes sources
         const products = [
             // Électronique (20 produits)
-            { id: 1, name: "Smartphone Haut de Gamme", price: 899.99, category: "electronique", image: "https://images.pexels.com/photos/788946/pexels-photo-788946.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 2, name: "Casque Audio Sans Fil", price: 199.99, category: "electronique", image: "https://images.pexels.com/photos/3394664/pexels-photo-3394664.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 3, name: "Montre Connectée Élégante", price: 249.99, category: "electronique", image: "https://images.pexels.com/photos/437037/pexels-photo-437037.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 4, name: "Enceinte Bluetooth Puissante", price: 129.99, category: "electronique", image: "https://images.pexels.com/photos/3747777/pexels-photo-3747777.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 5, name: "Tablette Performante", price: 459.99, category: "electronique", image: "https://images.pexels.com/photos/1334597/pexels-photo-1334597.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 6, name: "Écran 4K Ultra HD", price: 399.99, category: "electronique", image: "https://images.pexels.com/photos/1029757/pexels-photo-1029757.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 7, name: "Clavier Mécanique Gaming", price: 89.99, category: "electronique", image: "https://images.pexels.com/photos/2115256/pexels-photo-2115256.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 8, name: "Souris Ergonomique", price: 59.99, category: "electronique", image: "https://images.pexels.com/photos/2582928/pexels-photo-2582928.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 9, name: "Caméra HD Professionnelle", price: 699.99, category: "electronique", image: "https://images.pexels.com/photos/51383/photo-camera-subject-photographer-51383.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 10, name: "Drone avec Caméra 4K", price: 499.99, category: "electronique", image: "https://images.pexels.com/photos/1275929/pexels-photo-1275929.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 11, name: "Console de Jeux Portable", price: 299.99, category: "electronique", image: "https://images.pexels.com/photos/275033/pexels-photo-275033.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 12, name: "Disque Dur Externe 2To", price: 89.99, category: "electronique", image: "https://images.pexels.com/photos/2582937/pexels-photo-2582937.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 13, name: "Chargeur Rapide Sans Fil", price: 39.99, category: "electronique", image: "https://images.pexels.com/photos/1279106/pexels-photo-1279106.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 14, name: "Écouteurs True Wireless", price: 149.99, category: "electronique", image: "https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 15, name: "Projecteur HD Home Cinéma", price: 349.99, category: "electronique", image: "https://images.pexels.com/photos/948331/pexels-photo-948331.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 16, name: "Enregistreur Vocal Numérique", price: 79.99, category: "electronique", image: "https://images.pexels.com/photos/3728084/pexels-photo-3728084.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 17, name: "Câbles HDMI Haute Qualité", price: 24.99, category: "electronique", image: "https://images.pexels.com/photos/3568520/pexels-photo-3568520.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 18, name: "Station d'Accueil Universelle", price: 69.99, category: "electronique", image: "https://images.pexels.com/photos/3568521/pexels-photo-3568521.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 19, name: "Liseuse Électronique", price: 119.99, category: "electronique", image: "https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 20, name: "Batterie Externe Haute Capacité", price: 49.99, category: "electronique", image: "https://images.pexels.com/photos/1279107/pexels-photo-1279107.jpeg?auto=compress&cs=tinysrgb&w=600" },
+            { id: 1, name: "Smartphone Haut de Gamme", category: "electronique", image: "https://images.pexels.com/photos/788946/pexels-photo-788946.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Performant avec écran AMOLED et triple appareil photo. Autonomie exceptionnelle." },
+            { id: 2, name: "Casque Audio Sans Fil", category: "electronique", image: "https://images.pexels.com/photos/3394664/pexels-photo-3394664.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Son immersif avec réduction de bruit active. Confort optimal pour de longues sessions." },
+            { id: 3, name: "Montre Connectée Élégante", category: "electronique", image: "https://images.pexels.com/photos/437037/pexels-photo-437037.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Suivi santé avancé et notifications intelligentes. Design raffiné et résistant à l'eau." },
+            { id: 4, name: "Enceinte Bluetooth Puissante", category: "electronique", image: "https://images.pexels.com/photos/3747777/pexels-photo-3747777.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Audio haute fidélité avec basses profonds. Autonomie de 20 heures et design portable." },
+            { id: 5, name: "Tablette Performante", category: "electronique", image: "https://images.pexels.com/photos/1334597/pexels-photo-1334597.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Écran Retina et processeur ultra-rapide. Parfaite pour le travail et les loisirs." },
+            { id: 6, name: "Écran 4K Ultra HD", category: "electronique", image: "https://images.pexels.com/photos/1029757/pexels-photo-1029757.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Couleurs vibrantes et contraste exceptionnel. Idéal pour le gaming et le montage vidéo." },
+            { id: 7, name: "Clavier Mécanique Gaming", category: "electronique", image: "https://images.pexels.com/photos/2115256/pexels-photo-2115256.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Rétroéclairage RGB personnalisable et switches durables. Confort ergonomique optimal." },
+            { id: 8, name: "Souris Ergonomique", category: "electronique", image: "https://images.pexels.com/photos/2582928/pexels-photo-2582928.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Précision extrême avec capteur haute résolution. Design confortable pour usage prolongé." },
+            { id: 9, name: "Caméra HD Professionnelle", category: "electronique", image: "https://images.pexels.com/photos/51383/photo-camera-subject-photographer-51383.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Capteur full frame et objectifs interchangeables. Vidéo 4K et stabilisation avancée." },
+            { id: 10, name: "Drone avec Caméra 4K", category: "electronique", image: "https://images.pexels.com/photos/1275929/pexels-photo-1275929.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Stabilisation 3 axes et transmission vidéo longue portée. Pilotage intuitif pour débutants et experts." },
+            { id: 11, name: "Console de Jeux Portable", category: "electronique", image: "https://images.pexels.com/photos/275033/pexels-photo-275033.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Bibliothèque de jeux étendue et écran haute définition. Autonomie prolongée pour le gaming nomade." },
+            { id: 12, name: "Disque Dur Externe 2To", category: "electronique", image: "https://images.pexels.com/photos/2582937/pexels-photo-2582937.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Transfert ultra-rapide USB-C et design compact. Sécurité des données avec chiffrement matériel." },
+            { id: 13, name: "Chargeur Rapide Sans Fil", category: "electronique", image: "https://images.pexels.com/photos/1279106/pexels-photo-1279106.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Chargement rapide compatible avec tous les smartphones. Design élégant et sécurisé." },
+            { id: 14, name: "Écouteurs True Wireless", category: "electronique", image: "https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Audio haute qualité et autonomie de 30 heures. Conception ergonomique et étanche." },
+            { id: 15, name: "Projecteur HD Home Cinéma", category: "electronique", image: "https://images.pexels.com/photos/948331/pexels-photo-948331.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Résolution Full HD et son intégré de qualité. Installation facile et connectivité multiple." },
+            { id: 16, name: "Enregistreur Vocal Numérique", category: "electronique", image: "https://images.pexels.com/photos/3728084/pexels-photo-3728084.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Capture audio cristalline avec réduction de bruit. Compact et facile à utiliser." },
+            { id: 17, name: "Câbles HDMI Haute Qualité", category: "electronique", image: "https://images.pexels.com/photos/3568520/pexels-photo-3568520.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Transmission 4K ultra-rapide et connecteurs dorés. Durabilité et performance optimales." },
+            { id: 18, name: "Station d'Accueil Universelle", category: "electronique", image: "https://images.pexels.com/photos/3568521/pexels-photo-3568521.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Chargement simultané de plusieurs appareils. Ports multiples et design compact." },
+            { id: 19, name: "Liseuse Électronique", category: "electronique", image: "https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Écran papier électronique sans éblouissement. Autonomie de plusieurs semaines." },
+            { id: 20, name: "Batterie Externe Haute Capacité", category: "electronique", image: "https://images.pexels.com/photos/1279107/pexels-photo-1279107.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Charge rapide pour tous vos appareils. Design compact avec indicateur de charge." },
 
             // Maison & Déco (20 produits)
-            { id: 21, name: "Lampadaire Design Moderne", price: 129.99, category: "maison", image: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 22, name: "Tapis Élégant Salon", price: 199.99, category: "maison", image: "https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 23, name: "Coussin Décoratif Velours", price: 29.99, category: "maison", image: "https://images.pexels.com/photos/1571463/pexels-photo-1571463.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 24, name: "Horloge Murale Design", price: 49.99, category: "maison", image: "https://images.pexels.com/photos/3566602/pexels-photo-3566602.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 25, name: "Vase en Céramique Artisanal", price: 39.99, category: "maison", image: "https://images.pexels.com/photos/3582286/pexels-photo-3582286.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 26, name: "Set de Coussins Déco", price: 79.99, category: "maison", image: "https://images.pexels.com/photos/5824901/pexels-photo-5824901.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 27, name: "Plaque Murale Décorative", price: 24.99, category: "maison", image: "https://images.pexels.com/photos/1457845/pexels-photo-1457845.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 28, name: "Miroir Salon Ornementé", price: 89.99, category: "maison", image: "https://images.pexels.com/photos/3932930/pexels-photo-3932930.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 29, name: "Rideaux en Lin Naturel", price: 69.99, category: "maison", image: "https://images.pexels.com/photos/5997993/pexels-photo-5997993.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 30, name: "Couverts Inox Design", price: 59.99, category: "maison", image: "https://images.pexels.com/photos/5634510/pexels-photo-5634510.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 31, name: "Service à Thé Porcelaine", price: 89.99, category: "maison", image: "https://images.pexels.com/photos/585750/pexels-photo-585750.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 32, name: "Plateau de Service Bois", price: 34.99, category: "maison", image: "https://images.pexels.com/photos/3737653/pexels-photo-3737653.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 33, name: "Set de Verres à Vin", price: 49.99, category: "maison", image: "https://images.pexels.com/photos/290275/pexels-photo-290275.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 34, name: "Plante Décorative Artificielle", price: 19.99, category: "maison", image: "https://images.pexels.com/photos/4505457/pexels-photo-4505457.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 35, name: "Panier de Rangement Tressé", price: 29.99, category: "maison", image: "https://images.pexels.com/photos/5825535/pexels-photo-5825535.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 36, name: "Porte-manteau Design", price: 44.99, category: "maison", image: "https://images.pexels.com/photos/6311312/pexels-photo-6311312.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 37, name: "Couvre-lit Coton Égyptien", price: 119.99, category: "maison", image: "https://images.pexels.com/photos/6588573/pexels-photo-6588573.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 38, name: "Paravent Moderne", price: 149.99, category: "maison", image: "https://images.pexels.com/photos/7031406/pexels-photo-7031406.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 39, name: "Set de Serviettes de Bain", price: 39.99, category: "maison", image: "https://images.pexels.com/photos/6069087/pexels-photo-6069087.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 40, name: "Bougie Parfumée Maison", price: 24.99, category: "maison", image: "https://images.pexels.com/photos/4207782/pexels-photo-4207782.jpeg?auto=compress&cs=tinysrgb&w=600" },
+            { id: 21, name: "Lampadaire Design Moderne", category: "maison", image: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Éclairage LED ajustable et design scandinave. Matériaux durables et entretien facile." },
+            { id: 22, name: "Tapis Élégant Salon", category: "maison", image: "https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Laine naturelle et motifs contemporains. Confort et style pour votre intérieur." },
+            { id: 23, name: "Coussin Décoratif Velours", category: "maison", image: "https://images.pexels.com/photos/1571463/pexels-photo-1571463.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Texture luxueuse et coloris tendance. Rembourrage de qualité pour un confort optimal." },
+            { id: 24, name: "Horloge Murale Design", category: "maison", image: "https://images.pexels.com/photos/3566602/pexels-photo-3566602.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Mouvement silencieux et design minimaliste. Cadre en bois naturel et finition soignée." },
+            { id: 25, name: "Vase en Céramique Artisanal", category: "maison", image: "https://images.pexels.com/photos/3582286/pexels-photo-3582286.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Forme unique et finition mate. Pièce artisanale pour une décoration authentique." },
+            { id: 26, name: "Set de Coussins Déco", category: "maison", image: "https://images.pexels.com/photos/5824901/pexels-photo-5824901.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Assortiment de tailles et motifs coordonnés. Housse amovible et lavable pour un entretien facile." },
+            { id: 27, name: "Plaque Murale Décorative", category: "maison", image: "https://images.pexels.com/photos/1457845/pexels-photo-1457845.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Impression haute qualité sur métal. Design contemporain et installation simple." },
+            { id: 28, name: "Miroir Salon Ornementé", category: "maison", image: "https://images.pexels.com/photos/3932930/pexels-photo-3932930.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Cadre doré et verre sans distorsion. Élément élégant pour agrandir l'espace." },
+            { id: 29, name: "Rideaux en Lin Naturel", category: "maison", image: "https://images.pexels.com/photos/5997993/pexels-photo-5997993.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Tissu respirant et coupe moderne. Filtration lumineuse et intimité préservée." },
+            { id: 30, name: "Couverts Inox Design", category: "maison", image: "https://images.pexels.com/photos/5634510/pexels-photo-5634510.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Acier inoxydable 18/10 et finition brossée. Confort en main et équilibre parfait." },
+            { id: 31, name: "Service à Thé Porcelaine", category: "maison", image: "https://images.pexels.com/photos/585750/pexels-photo-585750.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Porcelaine fine et motifs floraux délicats. Service complet pour 6 personnes." },
+            { id: 32, name: "Plateau de Service Bois", category: "maison", image: "https://images.pexels.com/photos/3737653/pexels-photo-3737653.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Bois d'hévéa naturel et poignées intégrées. Polyvalent pour le service ou la décoration." },
+            { id: 33, name: "Set de Verres à Vin", category: "maison", image: "https://images.pexels.com/photos/290275/pexels-photo-290275.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Cristal transparent et forme ergonomique. Service de 6 verres pour dégustation." },
+            { id: 34, name: "Plante Décorative Artificielle", category: "maison", image: "https://images.pexels.com/photos/4505457/pexels-photo-4505457.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Réalisme saisissant et entretien nul. Cache-pot design inclus." },
+            { id: 35, name: "Panier de Rangement Tressé", category: "maison", image: "https://images.pexels.com/photos/5825535/pexels-photo-5825535.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Fibres naturelles et structure solide. Idéal pour rangement ou transport." },
+            { id: 36, name: "Porte-manteau Design", category: "maison", image: "https://images.pexels.com/photos/6311312/pexels-photo-6311312.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Lignes épurées et finition métal brossé. Installation murale facile et robuste." },
+            { id: 37, name: "Couvre-lit Coton Égyptien", category: "maison", image: "https://images.pexels.com/photos/6588573/pexels-photo-6588573.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Coton 100% égyptien et broderie raffinée. Confort et élégance pour votre chambre." },
+            { id: 38, name: "Paravent Moderne", category: "maison", image: "https://images.pexels.com/photos/7031406/pexels-photo-7031406.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Structure en bois et panneaux textiles. Créez des espaces intimistes avec style." },
+            { id: 39, name: "Set de Serviettes de Bain", category: "maison", image: "https://images.pexels.com/photos/6069087/pexels-photo-6069087.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Coton turc absorbant et bordures contrastées. Set complet dans différentes tailles." },
+            { id: 40, name: "Bougie Parfumée Maison", category: "maison", image: "https://images.pexels.com/photos/4207782/pexels-photo-4207782.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Parfum subtil et longue durée de combustion. Crée une ambiance chaleureuse et apaisante." },
 
             // Mode & Accessoires (20 produits)
-            { id: 41, name: "Sac à Main Cuir Véritable", price: 159.99, category: "mode", image: "https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 42, name: "Montre Classique Cuir", price: 199.99, category: "mode", image: "https://images.pexels.com/photos/125779/pexels-photo-125779.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 43, name: "Écharpe Laine Mérinos", price: 49.99, category: "mode", image: "https://images.pexels.com/photos/35185/hats-fedora-hat-manufacturer-stack.jpg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 44, name: "Ceinture Cuir Naturel", price: 39.99, category: "mode", image: "https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 45, name: "Lunettes de Soleil Design", price: 89.99, category: "mode", image: "https://images.pexels.com/photos/157675/fashion-men-s-individuality-black-157675.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 46, name: "Portefeuille Cuir Minimaliste", price: 59.99, category: "mode", image: "https://images.pexels.com/photos/2905238/pexels-photo-2905238.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 47, name: "Chaussures Bateau Cuir", price: 129.99, category: "mode", image: "https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 48, name: "Bijou Argent 925", price: 79.99, category: "mode", image: "https://images.pexels.com/photos/989964/pexels-photo-989964.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 49, name: "Chemise Coton Bio", price: 69.99, category: "mode", image: "https://images.pexels.com/photos/297933/pexels-photo-297933.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 50, name: "Pull Cachemire Élégant", price: 149.99, category: "mode", image: "https://images.pexels.com/photos/45982/pexels-photo-45982.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 51, name: "Robe Soirée Élégante", price: 179.99, category: "mode", image: "https://images.pexels.com/photos/985635/pexels-photo-985635.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 52, name: "Blazer Tailleur Femme", price: 139.99, category: "mode", image: "https://images.pexels.com/photos/3731256/pexels-photo-3731256.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 53, name: "Jean Slim Taille Haute", price: 79.99, category: "mode", image: "https://images.pexels.com/photos/1082529/pexels-photo-1082529.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 54, name: "Chapeau Panama Élégant", price: 59.99, category: "mode", image: "https://images.pexels.com/photos/35185/hats-fedora-hat-manufacturer-stack.jpg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 55, name: "Gants Cuir Doublés", price: 44.99, category: "mode", image: "https://images.pexels.com/photos/4202325/pexels-photo-4202325.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 56, name: "Collier Perles Naturelles", price: 89.99, category: "mode", image: "https://images.pexels.com/photos/1132047/pexels-photo-1132047.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 57, name: "Boucles d'Oreilles Cristal", price: 64.99, category: "mode", image: "https://images.pexels.com/photos/965981/pexels-photo-965981.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 58, name: "Bracelet Cuir Tressé", price: 34.99, category: "mode", image: "https://images.pexels.com/photos/1257080/pexels-photo-1257080.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 59, name: "Éventail Brodé Artisanal", price: 29.99, category: "mode", image: "https://images.pexels.com/photos/3737654/pexels-photo-3737654.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 60, name: "Pochette de Soirée", price: 49.99, category: "mode", image: "https://images.pexels.com/photos/8532616/pexels-photo-8532616.jpeg?auto=compress&cs=tinysrgb&w=600" },
+            { id: 41, name: "Sac à Main Cuir Véritable", category: "mode", image: "https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Cuir pleine fleur et finition artisanale. Compartiments pratiques et sangle ajustable." },
+            { id: 42, name: "Montre Classique Cuir", category: "mode", image: "https://images.pexels.com/photos/125779/pexels-photo-125779.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Mouvement suisse et cadran élégant. Sangle en cuir véritable et étanchéité 50m." },
+            { id: 43, name: "Écharpe Laine Mérinos", category: "mode", image: "https://images.pexels.com/photos/35185/hats-fedora-hat-manufacturer-stack.jpg?auto=compress&cs=tinysrgb&w=600", description: "Laine naturelle et tissage délicat. Légère et chaude, parfaite pour toutes les saisons." },
+            { id: 44, name: "Ceinture Cuir Naturel", category: "mode", image: "https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Cuir pleine fleur et boucle métal brossé. Taille ajustable et finition soignée." },
+            { id: 45, name: "Lunettes de Soleil Design", category: "mode", image: "https://images.pexels.com/photos/157675/fashion-men-s-individuality-black-157675.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Protection UV400 et monture légère. Style intemporel et confort optimal." },
+            { id: 46, name: "Portefeuille Cuir Minimaliste", category: "mode", image: "https://images.pexels.com/photos/2905238/pexels-photo-2905238.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Design épuré et organisation pratique. Cuir souple et patine naturelle avec le temps." },
+            { id: 47, name: "Chaussures Bateau Cuir", category: "mode", image: "https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Cuir souple et semelle flexible. Confort immédiat et style intemporel." },
+            { id: 48, name: "Bijou Argent 925", category: "mode", image: "https://images.pexels.com/photos/989964/pexels-photo-989964.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Argent sterling et pierres semi-précieuses. Design unique et fabrication artisanale." },
+            { id: 49, name: "Chemise Coton Bio", category: "mode", image: "https://images.pexels.com/photos/297933/pexels-photo-297933.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Coton biologique et coupe moderne. Confort et respirabilité toute la journée." },
+            { id: 50, name: "Pull Cachemire Élégant", category: "mode", image: "https://images.pexels.com/photos/45982/pexels-photo-45982.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Cachemire pur et tissage doux. Chaleur légère et style raffiné." },
+            { id: 51, name: "Robe Soirée Élégante", category: "mode", image: "https://images.pexels.com/photos/985635/pexels-photo-985635.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Silhouette flatteuse et tissu fluide. Dos nu et longueur midi pour une élégance moderne." },
+            { id: 52, name: "Blazer Tailleur Femme", category: "mode", image: "https://images.pexels.com/photos/3731256/pexels-photo-3731256.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Coupe structurée et tissu stretch. Polyvalent pour le bureau ou les occasions." },
+            { id: 53, name: "Jean Slim Taille Haute", category: "mode", image: "https://images.pexels.com/photos/1082529/pexels-photo-1082529.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Denim stretch et coupe ajustée. Taille haute et finitions premium." },
+            { id: 54, name: "Chapeau Panama Élégant", category: "mode", image: "https://images.pexels.com/photos/35185/hats-fedora-hat-manufacturer-stack.jpg?auto=compress&cs=tinysrgb&w=600", description: "Paille naturelle et bord réglable. Protection solaire et style intemporel." },
+            { id: 55, name: "Gants Cuir Doublés", category: "mode", image: "https://images.pexels.com/photos/4202325/pexels-photo-4202325.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Cuir souple et doublure polaire. Confort chaleureux et dextérité préservée." },
+            { id: 56, name: "Collier Perles Naturelles", category: "mode", image: "https://images.pexels.com/photos/1132047/pexels-photo-1132047.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Perles d'eau douce et fermoir or. Longueur ajustable et élégance intemporelle." },
+            { id: 57, name: "Boucles d'Oreilles Cristal", category: "mode", image: "https://images.pexels.com/photos/965981/pexels-photo-965981.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Cristal taillé et métal précieux. Design scintillant pour toutes occasions." },
+            { id: 58, name: "Bracelet Cuir Tressé", category: "mode", image: "https://images.pexels.com/photos/1257080/pexels-photo-1257080.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Cuir tressé main et fermoir ajustable. Style casual et fabrication artisanale." },
+            { id: 59, name: "Éventail Brodé Artisanal", category: "mode", image: "https://images.pexels.com/photos/3737654/pexels-photo-3737654.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Bois précieux et soie brodée. Accessoire élégant et fonctionnel." },
+            { id: 60, name: "Pochette de Soirée", category: "mode", image: "https://images.pexels.com/photos/8532616/pexels-photo-8532616.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Strass et paillettes sur fond noir. Format compact et chaîne amovible." },
 
             // Sport & Loisirs (20 produits)
-            { id: 61, name: "Vélo de Route Performant", price: 899.99, category: "sport", image: "https://images.pexels.com/photos/100582/pexels-photo-100582.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 62, name: "Tapis de Yoga Antidérapant", price: 39.99, category: "sport", image: "https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 63, name: "Haltères Réglables", price: 79.99, category: "sport", image: "https://images.pexels.com/photos/2294361/pexels-photo-2294361.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 64, name: "Sac de Sport Multifonction", price: 59.99, category: "sport", image: "https://images.pexels.com/photos/699953/pexels-photo-699953.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 65, name: "Chaussures de Running", price: 119.99, category: "sport", image: "https://images.pexels.com/photos/2529147/pexels-photo-2529147.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 66, name: "Raquette de Tennis Pro", price: 149.99, category: "sport", image: "https://images.pexels.com/photos/209977/pexels-photo-209977.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 67, name: "Ballon de Football Officiel", price: 49.99, category: "sport", image: "https://images.pexels.com/photos/46798/the-ball-stadion-football-the-pitch-46798.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 68, name: "Tente de Randonnée 2 Places", price: 129.99, category: "sport", image: "https://images.pexels.com/photos/618848/pexels-photo-618848.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 69, name: "Sac à Dos Randonnée 40L", price: 89.99, category: "sport", image: "https://images.pexels.com/photos/1271619/pexels-photo-1271619.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 70, name: "Montre GPS Sportive", price: 199.99, category: "sport", image: "https://images.pexels.com/photos/437038/pexels-photo-437038.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 71, name: "Veste Imperméable Randonnée", price: 99.99, category: "sport", image: "https://images.pexels.com/photos/1183021/pexels-photo-1183021.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 72, name: "Corde à Sauter Professionnelle", price: 24.99, category: "sport", image: "https://images.pexels.com/photos/3768916/pexels-photo-3768916.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 73, name: "Bouteille d'Eau Isotherme", price: 19.99, category: "sport", image: "https://images.pexels.com/photos/3737649/pexels-photo-3737649.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 74, name: "Planche de Surf Polyvalente", price: 399.99, category: "sport", image: "https://images.pexels.com/photos/416676/pexels-photo-416676.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 75, name: "Masque et Tuba Plongée", price: 49.99, category: "sport", image: "https://images.pexels.com/photos/2742618/pexels-photo-2742618.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 76, name: "Gants de Fitness", price: 29.99, category: "sport", image: "https://images.pexels.com/photos/4167544/pexels-photo-4167544.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 77, name: "Bande de Résistance Élastique", price: 14.99, category: "sport", image: "https://images.pexels.com/photos/4498316/pexels-photo-4498316.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 78, name: "Rouleau de Massage Musculaire", price: 34.99, category: "sport", image: "https://images.pexels.com/photos/4498362/pexels-photo-4498362.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 79, name: "Ballon de Yoga", price: 29.99, category: "sport", image: "https://images.pexels.com/photos/4056535/pexels-photo-4056535.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 80, name: "Kit de Badminton Complet", price: 39.99, category: "sport", image: "https://images.pexels.com/photos/1432039/pexels-photo-1432039.jpeg?auto=compress&cs=tinysrgb&w=600" },
+            { id: 61, name: "Vélo de Route Performant", category: "sport", image: "https://images.pexels.com/photos/100582/pexels-photo-100582.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Cadre carbone et groupe transmission haut de gamme. Léger et aérodynamique pour la performance." },
+            { id: 62, name: "Tapis de Yoga Antidérapant", category: "sport", image: "https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Surface antidérapante et épaisseur optimale. Marqueurs d'alignement pour une pratique précise." },
+            { id: 63, name: "Haltères Réglables", category: "sport", image: "https://images.pexels.com/photos/2294361/pexels-photo-2294361.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Poids ajustable de 5 à 25kg. Poignée ergonomique et système de verrouillage sécurisé." },
+            { id: 64, name: "Sac de Sport Multifonction", category: "sport", image: "https://images.pexels.com/photos/699953/pexels-photo-699953.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Compartiments spécialisés et matériau imperméable. Confortable à porter avec sangles ajustables." },
+            { id: 65, name: "Chaussures de Running", category: "sport", image: "https://images.pexels.com/photos/2529147/pexels-photo-2529147.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Amorti réactif et semelle grip. Respirant et léger pour des performances optimales." },
+            { id: 66, name: "Raquette de Tennis Pro", category: "sport", image: "https://images.pexels.com/photos/209977/pexels-photo-209977.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Cadre graphite et cordage pré-tendu. Contrôle et puissance pour tous les niveaux." },
+            { id: 67, name: "Ballon de Football Officiel", category: "sport", image: "https://images.pexels.com/photos/46798/the-ball-stadion-football-the-pitch-46798.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Cousu main et surface texturée. Adhérence et trajectoire précise." },
+            { id: 68, name: "Tente de Randonnée 2 Places", category: "sport", image: "https://images.pexels.com/photos/618848/pexels-photo-618848.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Ultra-légère et montage rapide. Imperméable et ventilée pour tout climat." },
+            { id: 69, name: "Sac à Dos Randonnée 40L", category: "sport", image: "https://images.pexels.com/photos/1271619/pexels-photo-1271619.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Système de portage ergonomique et multiples accès. Résistant aux intempéries et durable." },
+            { id: 70, name: "Montre GPS Sportive", category: "sport", image: "https://images.pexels.com/photos/437038/pexels-photo-437038.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Suivi multi-sports et autonomie étendue. Cardio-fréquencemètre et navigation intégrée." },
+            { id: 71, name: "Veste Imperméable Randonnée", category: "sport", image: "https://images.pexels.com/photos/1183021/pexels-photo-1183021.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Membrane respirante et coupe-vent. Pochettes sécurisées et capuche ajustable." },
+            { id: 72, name: "Corde à Sauter Professionnelle", category: "sport", image: "https://images.pexels.com/photos/3768916/pexels-photo-3768916.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Roulements à billes et longueur réglable. Compteur intégré pour suivre vos performances." },
+            { id: 73, name: "Bouteille d'Eau Isotherme", category: "sport", image: "https://images.pexels.com/photos/3737649/pexels-photo-3737649.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Maintien température 24h et paroi double. Bouchon sécurisé et design ergonomique." },
+            { id: 74, name: "Planche de Surf Polyvalente", category: "sport", image: "https://images.pexels.com/photos/416676/pexels-photo-416676.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Stable et maniable pour tous niveaux. Construction légère et durable." },
+            { id: 75, name: "Masque et Tuba Plongée", category: "sport", image: "https://images.pexels.com/photos/2742618/pexels-photo-2742618.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Vision panoramique et valve anti-eau. Confort optimal et matériaux hypoallergéniques." },
+            { id: 76, name: "Gants de Fitness", category: "sport", image: "https://images.pexels.com/photos/4167544/pexels-photo-4167544.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Protection paume et maintien poignet. Respirant et ajustement sécurisé." },
+            { id: 77, name: "Bande de Résistance Élastique", category: "sport", image: "https://images.pexels.com/photos/4498316/pexels-photo-4498316.jpeg?auto=compress&cs=tinysrgb&w=600", description: "5 niveaux de résistance et poignées confort. Entraînement complet et portable." },
+            { id: 78, name: "Rouleau de Massage Musculaire", category: "sport", image: "https://images.pexels.com/photos/4498362/pexels-photo-4498362.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Texture multi-densité et noyau creux. Récupération active et mobilité améliorée." },
+            { id: 79, name: "Ballon de Yoga", category: "sport", image: "https://images.pexels.com/photos/4056535/pexels-photo-4056535.jpeg?auto=compress&cs=tinysrgb&w=600", description: "PVC résistant et pompe incluse. Exercices de stabilité et renforcement core." },
+            { id: 80, name: "Kit de Badminton Complet", category: "sport", image: "https://images.pexels.com/photos/1432039/pexels-photo-1432039.jpeg?auto=compress&cs=tinysrgb&w=600", description: "4 raquettes et volants durables. Filet réglable et sac de transport." },
 
             // Beauté & Santé (20 produits)
-            { id: 81, name: "Kit Soin Visage Naturel", price: 69.99, category: "beaute", image: "https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 82, name: "Parfum Signature Élégant", price: 89.99, category: "beaute", image: "https://images.pexels.com/photos/965989/pexels-photo-965989.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 83, name: "Huile Essentielle Lavande", price: 19.99, category: "beaute", image: "https://images.pexels.com/photos/5946080/pexels-photo-5946080.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 84, name: "Brosse Cheveux Naturelle", price: 34.99, category: "beaute", image: "https://images.pexels.com/photos/4202325/pexels-photo-4202325.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 85, name: "Sérum Anti-Âge Puissant", price: 79.99, category: "beaute", image: "https://images.pexels.com/photos/4041391/pexels-photo-4041391.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 86, name: "Masque Visage Hydratant", price: 24.99, category: "beaute", image: "https://images.pexels.com/photos/4202325/pexels-photo-4202325.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 87, name: "Diffuseur d'Huiles Essentielles", price: 49.99, category: "beaute", image: "https://images.pexels.com/photos/4203098/pexels-photo-4203098.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 88, name: "Rouge à Lèvres Longue Tenue", price: 29.99, category: "beaute", image: "https://images.pexels.com/photos/2533266/pexels-photo-2533266.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 89, name: "Palette Fards à Paupières", price: 44.99, category: "beaute", image: "https://images.pexels.com/photos/2533266/pexels-photo-2533266.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 90, name: "Mascara Volume Intense", price: 27.99, category: "beaute", image: "https://images.pexels.com/photos/3373736/pexels-photo-3373736.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 91, name: "Crème Solaire SPF 50", price: 22.99, category: "beaute", image: "https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 92, name: "Gel Douche Parfumé", price: 16.99, category: "beaute", image: "https://images.pexels.com/photos/4041391/pexels-photo-4041391.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 93, name: "Shampoing Naturel Réparateur", price: 19.99, category: "beaute", image: "https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 94, name: "Baume à Lèvres Hydratant", price: 12.99, category: "beaute", image: "https://images.pexels.com/photos/2533266/pexels-photo-2533266.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 95, name: "Pinceaux Maquillage Professionnels", price: 39.99, category: "beaute", image: "https://images.pexels.com/photos/2533266/pexels-photo-2533266.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 96, name: "Vernis à Ongles Longue Tenue", price: 14.99, category: "beaute", image: "https://images.pexels.com/photos/3993467/pexels-photo-3993467.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 97, name: "Dentifrice Blanchissant", price: 9.99, category: "beaute", image: "https://images.pexels.com/photos/673857/pexels-photo-673857.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 98, name: "Brosse à Dents Électrique", price: 49.99, category: "beaute", image: "https://images.pexels.com/photos/4203100/pexels-photo-4203100.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 99, name: "Balance Connectée Intelligente", price: 59.99, category: "beaute", image: "https://images.pexels.com/photos/437038/pexels-photo-437038.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 100, name: "Tensiomètre Bras Digital", price: 39.99, category: "beaute", image: "https://images.pexels.com/photos/4386466/pexels-photo-4386466.jpeg?auto=compress&cs=tinysrgb&w=600" }
+            { id: 81, name: "Kit Soin Visage Naturel", category: "beaute", image: "https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Nettoyant, tonique et crème hydratante. Ingrédients biologiques et vegan." },
+            { id: 82, name: "Parfum Signature Élégant", category: "beaute", image: "https://images.pexels.com/photos/965989/pexels-photo-965989.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Notes florales et boisées persistantes. Flacon design et vaporisateur précis." },
+            { id: 83, name: "Huile Essentielle Lavande", category: "beaute", image: "https://images.pexels.com/photos/5946080/pexels-photo-5946080.jpeg?auto=compress&cs=tinysrgb&w=600", description: "100% pure et certifiée biologique. Relaxante et apaisante pour le corps et l'esprit." },
+            { id: 84, name: "Brosse Cheveux Naturelle", category: "beaute", image: "https://images.pexels.com/photos/4202325/pexels-photo-4202325.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Poils sanglier et bois de hêtre. Stimule le cuir chevelu et brille les cheveux." },
+            { id: 85, name: "Sérum Anti-Âge Puissant", category: "beaute", image: "https://images.pexels.com/photos/4041391/pexels-photo-4041391.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Vitamine C et acide hyaluronique. Texture légère et absorption rapide." },
+            { id: 86, name: "Masque Visage Hydratant", category: "beaute", image: "https://images.pexels.com/photos/4202325/pexels-photo-4202325.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Aloe vera et céramides. Usage unique et format voyage pratique." },
+            { id: 87, name: "Diffuseur d'Huiles Essentielles", category: "beaute", image: "https://images.pexels.com/photos/4203098/pexels-photo-4203098.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Fonctionnement silencieux et minuterie. Design en bois naturel et LED douce." },
+            { id: 88, name: "Rouge à Lèvres Longue Tenue", category: "beaute", image: "https://images.pexels.com/photos/2533266/pexels-photo-2533266.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Formule hydratante et fini mat. Large gamme de teintes universelles." },
+            { id: 89, name: "Palette Fards à Paupières", category: "beaute", image: "https://images.pexels.com/photos/2533266/pexels-photo-2533266.jpeg?auto=compress&cs=tinysrgb&w=600", description: "12 nuances mates et scintillantes. Pigmentation intense et tenue prolongée." },
+            { id: 90, name: "Mascara Volume Intense", category: "beaute", image: "https://images.pexels.com/photos/3373736/pexels-photo-3373736.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Brosse précise et formule waterproof. Cils séparés et allongés sans paquets." },
+            { id: 91, name: "Crème Solaire SPF 50", category: "beaute", image: "https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Protection large spectrum et texture légère. Résistante à l'eau et non grasse." },
+            { id: 92, name: "Gel Douche Parfumé", category: "beaute", image: "https://images.pexels.com/photos/4041391/pexels-photo-4041391.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Notes d'agrumes et de bois précieux. Mousse riche et peau hydratée." },
+            { id: 93, name: "Shampoing Naturel Réparateur", category: "beaute", image: "https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Kératine et huiles végétales. Nettoie en douceur et répare les pointes." },
+            { id: 94, name: "Baume à Lèvres Hydratant", category: "beaute", image: "https://images.pexels.com/photos/2533266/pexels-photo-2533266.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Beurre de karité et cire d'abeille. Protection longue durée et fini non collant." },
+            { id: 95, name: "Pinceaux Maquillage Professionnels", category: "beaute", image: "https://images.pexels.com/photos/2533266/pexels-photo-2533266.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Poils synthétiques et manche ergonomique. Set complet pour un maquillage parfait." },
+            { id: 96, name: "Vernis à Ongles Longue Tenue", category: "beaute", image: "https://images.pexels.com/photos/3993467/pexels-photo-3993467.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Formule 10 jours et séchage rapide. Large choix de couleurs tendance." },
+            { id: 97, name: "Dentifrice Blanchissant", category: "beaute", image: "https://images.pexels.com/photos/673857/pexels-photo-673857.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Peroxyde doux et fluor protecteur. Goût menthe fraîche et haleine purifiée." },
+            { id: 98, name: "Brosse à Dents Électrique", category: "beaute", image: "https://images.pexels.com/photos/4203100/pexels-photo-4203100.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Mouvements soniques et minuteur intégré. Têtes interchangeables et charge USB." },
+            { id: 99, name: "Balance Connectée Intelligente", category: "beaute", image: "https://images.pexels.com/photos/437038/pexels-photo-437038.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Mesure composition corporelle et synchronisation app. Design verre trempé et écran LED." },
+            { id: 100, name: "Tensiomètre Bras Digital", category: "beaute", image: "https://images.pexels.com/photos/4386466/pexels-photo-4386466.jpeg?auto=compress&cs=tinysrgb&w=600", description: "Mesure précise et mémoire intégrée. Brassard confortable et écran large." }
         ];
 
         // Variables globales
@@ -448,7 +463,6 @@
             displayProducts();
             setupPagination();
             setupFilters();
-            setupHeaderScroll();
             setupCartButtons();
         });
 
@@ -485,15 +499,15 @@
                     <div class="product-info">
                         <div class="product-category">${product.category}</div>
                         <h3 class="product-title">${product.name}</h3>
-                        <div class="product-price">${product.price.toFixed(2)} €</div>
-                        <button class="btn add-to-cart" data-id="${product.id}">Ajouter au panier</button>
+                        <p class="product-description">${product.description}</p>
+                        <button class="btn view-product" data-id="${product.id}">Voir le produit</button>
                     </div>
                 `;
                 container.appendChild(productCard);
             });
             
-            // Reconfigurer les boutons d'ajout au panier
-            setupCartButtons();
+            // Reconfigurer les boutons "Voir le produit"
+            setupViewProductButtons();
         }
 
         // Configurer la pagination
@@ -519,7 +533,7 @@
                     currentPage--;
                     displayProducts();
                     setupPagination();
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    window.scrollTo({ top: document.querySelector('.filters-container').offsetTop, behavior: 'smooth' });
                 }
             });
             paginationContainer.appendChild(prevButton);
@@ -533,7 +547,7 @@
                     currentPage = i;
                     displayProducts();
                     setupPagination();
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    window.scrollTo({ top: document.querySelector('.filters-container').offsetTop, behavior: 'smooth' });
                 });
                 paginationContainer.appendChild(pageButton);
             }
@@ -547,7 +561,7 @@
                     currentPage++;
                     displayProducts();
                     setupPagination();
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    window.scrollTo({ top: document.querySelector('.filters-container').offsetTop, behavior: 'smooth' });
                 }
             });
             paginationContainer.appendChild(nextButton);
@@ -578,52 +592,33 @@
             });
         }
 
-        // Configurer le comportement de l'en-tête au défilement
-        function setupHeaderScroll() {
-            const header = document.getElementById('main-header');
-            let lastScrollTop = 0;
+        // Configurer les boutons "Voir le produit"
+        function setupViewProductButtons() {
+            const viewProductButtons = document.querySelectorAll('.view-product');
             
-            window.addEventListener('scroll', function() {
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                
-                if (scrollTop > lastScrollTop && scrollTop > 100) {
-                    // Défilement vers le bas - masquer l'en-tête
-                    header.classList.add('hidden');
-                } else {
-                    // Défilement vers le haut - afficher l'en-tête
-                    header.classList.remove('hidden');
-                }
-                
-                lastScrollTop = scrollTop;
-            });
-        }
-
-        // Configurer les boutons d'ajout au panier
-        function setupCartButtons() {
-            const addToCartButtons = document.querySelectorAll('.add-to-cart');
-            
-            addToCartButtons.forEach(button => {
+            viewProductButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     const productId = this.getAttribute('data-id');
-                    addToCart(productId);
+                    viewProduct(productId);
                 });
             });
         }
 
-        // Ajouter un produit au panier
-        function addToCart(productId) {
-            cartCount++;
-            document.querySelector('.cart-count').textContent = cartCount;
+        // Afficher les détails d'un produit
+        function viewProduct(productId) {
+            const product = products.find(p => p.id == productId);
+            if (product) {
+                alert(`Détails du produit:\n\n${product.name}\n\n${product.description}\n\nCatégorie: ${product.category}`);
+            }
+        }
+
+        // Configurer les boutons du panier
+        function setupCartButtons() {
+            const cartIcon = document.querySelector('.cart-icon');
             
-            // Animation du bouton
-            const button = document.querySelector(`.add-to-cart[data-id="${productId}"]`);
-            button.textContent = 'Ajouté !';
-            button.style.backgroundColor = '#4CAF50';
-            
-            setTimeout(() => {
-                button.textContent = 'Ajouter au panier';
-                button.style.backgroundColor = '';
-            }, 1500);
+            cartIcon.addEventListener('click', function() {
+                alert(`Votre panier contient ${cartCount} produit(s)`);
+            });
         }
     </script>
 </body>
